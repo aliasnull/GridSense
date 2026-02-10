@@ -4,7 +4,7 @@
 ![Blogger](https://img.shields.io/badge/blogger-%23FF5722.svg?style=for-the-badge&logo=blogger&logoColor=white)
 <br>
 ![License](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg?style=for-the-badge&logo=creative-commons&logoColor=white)
-![Repo Size](https://img.shields.io/github/repo-size/AliasNull/blogger-theme?style=for-the-badge&logo=github&logoColor=white)
+![Repo Size](https://img.shields.io/github/repo-size/AliasNull/GridSense?style=for-the-badge&logo=github&logoColor=white)
 
 
 # GridSense Blogger Theme
