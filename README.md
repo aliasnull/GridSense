@@ -110,7 +110,7 @@ Wrap your YouTube or other video iframes in a `video-container` div to make them
 *   **Author:** AliasNull
 *   **License:** Creative Commons Attribution 4.0 International
 
---- 
+---
 
 ## ⭐️ Support the Project
 
