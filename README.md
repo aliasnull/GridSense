@@ -14,7 +14,7 @@ A modern, responsive, and AdSense-friendly Blogger theme with a grid layout, dar
 ## Installation
 
 1.  **Backup:** Always backup your current theme before making changes.
-2.  **Upload:** Go to Blogger > Theme > Customize > Edit HTML. Copy the entire content of `theme.xml` and paste it into the editor. Save.
+2.  **Upload:** Go to Blogger > Theme > Customize > Edit HTML. Copy the entire content of `gridsense.xml` and paste it into the editor. Save.
 3.  **Setup Menus:**
     *   Go to **Layout**.
     *   Edit the **Main Menu** widget to add your primary navigation links.
