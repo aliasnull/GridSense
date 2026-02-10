@@ -12,6 +12,23 @@
     -->
     <b:include data='blog' name='all-head-content'/>
     <title><data:blog.pageTitle/></title>
+            <b:if cond='data:view.isHomepage'>
+        <script type='application/ld+json'>
+        {
+          "@context": "http://schema.org",
+          "@type": "WebSite",
+          "url": "<data:blog.homepageUrl/>",
+          "name": "<data:blog.title.escaped/>",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "<data:blog.homepageUrl/>search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+        </script>
+    </b:if>
+
+
     <b:template-skin>
     <![CDATA[
     /* Layout Editor Styles - STRICT RESET */
@@ -1151,66 +1168,91 @@
                         </b:includable>
 
                         <b:includable id='post-full' var='post'>
-                            <article class='post hentry' itemprop='blogPost' itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
-                                <h1 class='post-title entry-title' itemprop='headline'><data:post.title/></h1>
-                                <meta expr:content='data:post.url' itemprop='url'/>
-                                <meta expr:content='data:post.thumbnailUrl' itemprop='image'/>
+    <script type='application/ld+json'>
+    {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "<data:post.url.canonical/>"
+      },
+      "headline": "<data:post.title.escaped/>",
+      "description": "<data:post.snippet.escaped/>",
+      "image": {
+        "@type": "ImageObject",
+        "url": "<b:if cond='data:post.featuredImage'><data:post.featuredImage/><b:else/>https://via.placeholder.com/1200x630</b:if>",
+        "height": 630,
+        "width": 1200
+      },
+      "datePublished": "<data:post.timestampISO8601/>",
+      "dateModified": "<data:post.lastUpdatedISO8601/>",
+      "author": {
+        "@type": "Person",
+        "name": "<data:post.author.name/>",
+        "url": "<data:post.author.profileUrl/>"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "<data:blog.title.escaped/>",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "<data:blog.blogspotFaviconUrl/>" 
+        }
+      }
+    }
+    </script>
 
-                                <div class='post-meta' style='color:var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem;'>
-                                    <!-- Dynamic Author Name (Use AliasNull in Footer for Theme Credit) -->
-                                    <span class='post-author' itemprop='author' itemscope='itemscope' itemtype='http://schema.org/Person'>
-                                        By <span itemprop='name'><data:post.author.name/></span>
-                                    </span>
-                                    <span class='post-date'> on <span itemprop='datePublished'><data:post.date/></span></span>
-                                </div>
+    <article class='post hentry'>
+        <h1 class='post-title entry-title'><data:post.title/></h1>
+        
+        <div class='post-meta' style='color:var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem;'>
+            <span class='post-author'>
+                By <span><data:post.author.name/></span>
+            </span>
+            <span class='post-date'> on <span><data:post.date/></span></span>
+        </div>
 
-                                <!-- Ad Slot: Below Title (Target) -->
-                                <div id='ad-target-title' class='ad-slot ad-below-title'></div>
+        <div id='ad-target-title' class='ad-slot ad-below-title'></div>
 
-                                <div class='post-body entry-content' id='post-body' itemprop='articleBody'>
-                                    <data:post.body/>
-                                    <div style='clear: both;'/>
-                                </div>
+        <div class='post-body entry-content' id='post-body'>
+            <data:post.body/>
+            <div style='clear: both;'/>
+        </div>
 
-                                <!-- Ad Slot: Below Content (Target) -->
-                                <div id='ad-target-bottom' class='ad-slot ad-below-content'></div>
+        <div id='ad-target-bottom' class='ad-slot ad-below-content'></div>
 
-                                <!-- Share Buttons -->
-                                <div class='share-buttons'>
-                                    <a class='share-btn-main share-fb' expr:href='"https://www.facebook.com/sharer.php?u=" + data:post.url' target='_blank' rel='nofollow'>Facebook</a>
-                                    <a class='share-btn-main share-tw' expr:href='"https://twitter.com/intent/tweet?url=" + data:post.url + "&amp;text=" + data:post.title' target='_blank' rel='nofollow'>Twitter</a>
-                                    <a class='share-btn-main share-wa' expr:href='"https://api.whatsapp.com/send?text=" + data:post.title + " - " + data:post.url' target='_blank' rel='nofollow'>WhatsApp</a>
-                                    <button class='share-btn-main share-copy' id='copy-link-btn' expr:data-url='data:post.url'>Copy Link</button>
-                                </div>
+        <div class='share-buttons'>
+            <a class='share-btn-main share-fb' expr:href='"https://www.facebook.com/sharer.php?u=" + data:post.url' target='_blank' rel='nofollow'>Facebook</a>
+            <a class='share-btn-main share-tw' expr:href='"https://twitter.com/intent/tweet?url=" + data:post.url + "&amp;text=" + data:post.title' target='_blank' rel='nofollow'>Twitter</a>
+            <a class='share-btn-main share-wa' expr:href='"https://api.whatsapp.com/send?text=" + data:post.title + " - " + data:post.url' target='_blank' rel='nofollow'>WhatsApp</a>
+            <button class='share-btn-main share-copy' id='copy-link-btn' expr:data-url='data:post.url'>Copy Link</button>
+        </div>
 
-                                <!-- Related Posts Container -->
-                                <div id='related-posts'>
-                                    <h3>You Might Also Like</h3>
-                                    <div class='related-grid' id='related-grid-content'>
-                                        <!-- JS will populate this -->
-                                        <div style="text-align:center; padding:20px; color:var(--text-secondary);">Loading...</div>
-                                    </div>
-                                    <!-- Hidden data for JS to pick up -->
-                                    <b:if cond='data:post.labels'>
-                                        <div id='related-post-data' style='display:none;' expr:data-label='data:post.labels.first.name'></div>
-                                    </b:if>
-                                </div>
+        <div id='related-posts'>
+            <h3>You Might Also Like</h3>
+            <div class='related-grid' id='related-grid-content'>
+                <div style="text-align:center; padding:20px; color:var(--text-secondary);">Loading...</div>
+            </div>
+            <b:if cond='data:post.labels'>
+                <div id='related-post-data' style='display:none;' expr:data-label='data:post.labels.first.name'></div>
+            </b:if>
+        </div>
 
-                                <div class='post-labels'>
-                                    <b:if cond='data:post.labels'>
-                                        <span>Tags: </span>
-                                        <b:loop values='data:post.labels' var='label'>
-                                            <a expr:href='data:label.url' rel='tag'><data:label.name/></a><b:if cond='!data:label.isLast'>, </b:if>
-                                        </b:loop>
-                                    </b:if>
-                                </div>
-                            </article>
+        <div class='post-labels'>
+            <b:if cond='data:post.labels'>
+                <span>Tags: </span>
+                <b:loop values='data:post.labels' var='label'>
+                    <a expr:href='data:label.url' rel='tag'><data:label.name/></a><b:if cond='!data:label.isLast'>, </b:if>
+                </b:loop>
+            </b:if>
+        </div>
+    </article>
 
-                            <!-- Comments -->
-                            <b:if cond='data:post.allowComments'>
-                                <b:include data='post' name='comment_picker'/>
-                            </b:if>
-                        </b:includable>
+    <b:if cond='data:post.allowComments'>
+        <b:include data='post' name='comment_picker'/>
+    </b:if>
+</b:includable>
+
 
                         <b:includable id='nextprev'>
                             <div class='blog-pager' id='blog-pager'>
