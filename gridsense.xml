@@ -6,7 +6,7 @@
     <!--
         Theme Name: GridSense
         Author: AliasNull
-        Version: 1.0.0
+        Version: 1.2.0
         Description: A modern, responsive, dark-mode enabled Blogger theme with advanced ad management and grid layout.
         License: Creative Commons Attribution 4.0 International
     -->
@@ -223,6 +223,8 @@
         display: flex;
         flex-direction: column;
         min-height: 100vh;
+        width: 100%; /* Ensure wrapper doesn't overflow */
+        overflow-x: hidden; /* Safety net */
     }
     .content-wrapper {
         max-width: 1200px;
@@ -234,6 +236,13 @@
         width: 100%;
         flex: 1;
     }
+
+    /* FIX: Allow Grid items to shrink so internal scrollbars work */
+    #main-wrapper, #sidebar-wrapper {
+        min-width: 0;
+        max-width: 100%;
+    }
+
 
     /* Header */
     #header-wrapper {
@@ -522,6 +531,7 @@
         border-collapse: collapse;
         margin: 0; /* Margin handled by wrapper */
         background: var(--surface-color);
+        table-layout: auto; /* Allow columns to adjust based on content */
     }
 
     .table-wrapper {
@@ -542,6 +552,7 @@
         text-align: left;
         white-space: nowrap; /* Force horizontal scrolling instead of wrapping */
         min-width: 120px; /* Ensure columns have reasonable width */
+        word-wrap: break-word; /* Prevent words from overflowing */
     }
 
     .post-body th {
@@ -554,6 +565,14 @@
     }
     .post-body tr:last-child td { border-bottom: none; }
     .post-body tr:nth-child(even) { background-color: var(--bg-color); }
+    
+    @media (max-width: 1200px) {
+    .post-body table {
+        display: block; /* Make table scrollable */
+        overflow-x: auto; /* Enable horizontal scroll */
+        white-space: nowrap; /* Ensure no wrapping */
+    }
+}
 
     /* Quotes, Lyrics, Shayari */
     blockquote, .quote-box, .lyrics-box {
