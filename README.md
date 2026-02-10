@@ -126,6 +126,6 @@ If you really like my work, you can support me via donation.
 | ![Bitcoin](https://img.shields.io/badge/Bitcoin-000000?style=for-the-badge&logo=bitcoin&logoColor=white) | `YOUR_BTC_ADDRESS_HERE` |
 | ![Ethereum](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white) | `0xFc46b12Ac015180D4494051bFa7b6327E287F814` |
 | ![Tether](https://img.shields.io/badge/tether-26A17B?style=for-the-badge&logo=tether&logoColor=white) | `YOUR_USDT_ADDRESS_HERE` |
-| ![UPI](https://img.shields.io/badge/UPI-702B90?style=for-the-badge&logo=upi&logoColor=white) | `aliasnull@ptaxis` |
+| ![UPI](https://img.shields.io/badge/UPI-702B90?style=for-the-badge&logo=bhim&logoColor=white) | `aliasnull@ptaxis` |
 
 _Every contribution, however small, is hugely appreciated._ ❤️
