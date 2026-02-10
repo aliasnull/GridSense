@@ -6,7 +6,7 @@
     <!--
         Theme Name: GridSense
         Author: AliasNull
-        Version: 1.2.0
+        Version: 1.0.0
         Description: A modern, responsive, dark-mode enabled Blogger theme with advanced ad management and grid layout.
         License: Creative Commons Attribution 4.0 International
     -->
@@ -672,7 +672,7 @@
     }
     /* Hide the Middle Ad widget in the sidebar (it will be moved by JS) */
     #HTML3 { display: none; }
-    .sidebar h2 {
+    .sidebar h3 {
         margin-top: 0;
         font-size: 18px;
         border-bottom: 2px solid var(--primary-color);
@@ -941,6 +941,16 @@
         }
         .main-menu { display: none; } /* Standard menu hidden on mobile */
     }
+    
+    .header div.title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+.header div.title a { color: var(--text-color); }
+
+    
+    
     ]]></b:skin>
 </head>
 <body>
@@ -971,12 +981,18 @@
                             <b:widget-setting name='displayWidth'>0</b:widget-setting>
                         </b:widget-settings>
                         <b:includable id='main'>
-                            <div class='header-widget'>
-                                <h1 class='title'>
-                                    <b:include name='title'/>
-                                </h1>
-                            </div>
-                        </b:includable>
+                        <div class='header-widget'>
+                        <b:if cond='data:view.isHomepage'>
+                        <h1 class='title'>
+                        <b:include name='title'/>
+                        </h1>
+                        <b:else/>
+                        <div class='title'>
+                        <b:include name='title'/>
+                        </div>
+                         </b:if>
+                         </div>
+                         </b:includable>
                         <b:includable id='description'>
                             <data:description/>
                         </b:includable>
@@ -1435,7 +1451,7 @@
                         </b:widget-settings>
                         <b:includable id='main'>
                             <b:if cond='data:title != ""'>
-                                <h2><data:title/></h2>
+                                <h3><data:title/></h3>
                             </b:if>
                             <div class='widget-content'>
                                 <ul>
