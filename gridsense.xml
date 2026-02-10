@@ -526,13 +526,13 @@
 
     /* Modern Tables - Responsive Fix */
     .post-body table {
-        display: table;
-        width: 100%;
+        display: table !important;
+        width: 100% !important; /* Force full width to remove empty space */
         border-collapse: collapse;
-        margin: 0; /* Margin handled by wrapper */
+        margin: 0; 
         background: var(--surface-color);
-        table-layout: auto; /* Allow columns to adjust based on content */
     }
+
 
     .table-wrapper {
         display: block;
