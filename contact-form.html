@@ -1,0 +1,284 @@
+<!--
+    ========================================================================
+    GRID SENSE THEME - CUSTOM NATIVE CONTACT FORM
+    ========================================================================
+
+    INSTRUCTIONS:
+    1. Create a new Page in Blogger (e.g., "Contact Us").
+    2. Switch the editor to "HTML View" (look for the pencil/code icon).
+    3. Copy and paste the ENTIRE code block below into the editor.
+    4. Publish the page.
+
+    HOW IT WORKS:
+    This form does NOT rely on 3rd party services like Formspree.
+    Instead, it uses JavaScript to send data to the hidden 'ContactForm1' widget
+    that is built into the GridSense theme footer.
+    The email will be sent to the blog administrator(s).
+-->
+
+<style>
+    /* Scoped Styles for Contact Form */
+    .contact-container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 40px;
+        background: var(--surface-color, #ffffff);
+        border-radius: 12px;
+        box-shadow: var(--shadow, 0 10px 30px rgba(0,0,0,0.1));
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text-color, #333);
+        position: relative;
+    }
+
+    .contact-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .contact-header h2 {
+        font-size: 2em;
+        margin-bottom: 10px;
+        color: var(--primary-color, #007BFF);
+    }
+
+    .contact-header p {
+        color: var(--text-secondary, #666);
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 25px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 16px;
+        background: var(--bg-color, #f4f6f8);
+        border: 2px solid var(--border-color, #e0e0e0);
+        border-radius: 8px;
+        outline: none;
+        transition: all 0.3s ease;
+        color: var(--text-color, #333);
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color, #007BFF);
+        background: var(--surface-color, #fff);
+        box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
+    }
+
+    .form-label {
+        position: absolute;
+        left: 15px;
+        top: 14px;
+        color: var(--text-secondary, #999);
+        pointer-events: none;
+        transition: 0.3s ease;
+        background: transparent;
+        padding: 0 5px;
+    }
+
+    /* Floating Label Logic */
+    .form-control:focus ~ .form-label,
+    .form-control:not(:placeholder-shown) ~ .form-label {
+        top: -10px;
+        left: 10px;
+        font-size: 12px;
+        color: var(--primary-color, #007BFF);
+        background: var(--surface-color, #fff);
+        font-weight: 600;
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 15px;
+        background: var(--primary-color, #007BFF);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    }
+
+    .submit-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* Status Messages */
+    .form-status {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 6px;
+        display: none;
+        text-align: center;
+        font-weight: 500;
+    }
+    .form-status.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        display: block;
+    }
+    .form-status.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        display: block;
+    }
+
+    /* Dark Mode Compatibility Support */
+    @media (prefers-color-scheme: dark) {
+        .contact-container {
+            /* Fallback if CSS vars fail */
+            background: var(--surface-color, #1e1e1e);
+            color: var(--text-color, #e0e0e0);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .contact-container {
+            padding: 25px;
+        }
+    }
+</style>
+
+<div class="contact-container">
+    <div class="contact-header">
+        <h2>Get in Touch</h2>
+        <p>Send us a message directly.</p>
+    </div>
+
+    <!-- Custom Form Structure -->
+    <form id="custom-contact-form">
+
+        <div class="form-group">
+            <input type="text" id="custom-name" class="form-control" placeholder=" " required>
+            <label for="custom-name" class="form-label">Your Name</label>
+        </div>
+
+        <div class="form-group">
+            <input type="email" id="custom-email" class="form-control" placeholder=" " required>
+            <label for="custom-email" class="form-label">Email Address</label>
+        </div>
+
+        <div class="form-group">
+            <textarea id="custom-message" class="form-control" placeholder=" " required></textarea>
+            <label for="custom-message" class="form-label">Your Message</label>
+        </div>
+
+        <button type="submit" id="custom-submit-btn" class="submit-btn">Send Message</button>
+
+        <div id="custom-status" class="form-status"></div>
+    </form>
+</div>
+
+<script>
+//<![CDATA[
+(function() {
+    // Wait for DOM
+    document.addEventListener('DOMContentLoaded', function() {
+        const customForm = document.getElementById('custom-contact-form');
+        const customBtn = document.getElementById('custom-submit-btn');
+        const statusBox = document.getElementById('custom-status');
+
+        if (!customForm) return;
+
+        customForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // 1. Get values from Custom Form
+            const name = document.getElementById('custom-name').value;
+            const email = document.getElementById('custom-email').value;
+            const message = document.getElementById('custom-message').value;
+
+            // 2. Find the HIDDEN native Blogger Contact Form (injected via theme.xml)
+            // Note: The ID 'ContactForm1_contact-form-submit' is standard for the first contact widget
+            const nativeName = document.getElementById('ContactForm1_contact-form-name');
+            const nativeEmail = document.getElementById('ContactForm1_contact-form-email');
+            const nativeMessage = document.getElementById('ContactForm1_contact-form-email-message');
+            const nativeSubmit = document.getElementById('ContactForm1_contact-form-submit');
+
+            if (!nativeSubmit) {
+                statusBox.textContent = "Error: Native contact widget not found. Please enable it in the theme layout.";
+                statusBox.className = 'form-status error';
+                return;
+            }
+
+            // 3. Transfer values to the hidden form
+            nativeName.value = name;
+            nativeEmail.value = email;
+            nativeMessage.value = message;
+
+            // 4. Update UI to loading state
+            customBtn.disabled = true;
+            customBtn.textContent = "Sending...";
+            statusBox.style.display = 'none';
+
+            // 5. Trigger the native submit button click
+            // Blogger's script listens for this click event to process the form via AJAX
+            nativeSubmit.click();
+
+            // 6. Monitor the native error/success message divs for changes
+            // Blogger updates these hidden divs asynchronously
+            const nativeError = document.getElementById('ContactForm1_contact-form-error-message');
+            const nativeSuccess = document.getElementById('ContactForm1_contact-form-success-message');
+
+            let attempts = 0;
+            const maxAttempts = 20; // 10 seconds timeout
+
+            const checkStatus = setInterval(function() {
+                attempts++;
+
+                // Check for Success
+                if (nativeSuccess && nativeSuccess.style.display !== 'none' && nativeSuccess.innerHTML.trim() !== '') {
+                    clearInterval(checkStatus);
+                    statusBox.innerHTML = "Message Sent Successfully!";
+                    statusBox.className = 'form-status success';
+                    statusBox.style.display = ''; // Clear inline display:none
+                    customBtn.textContent = "Sent";
+                    customForm.reset();
+                }
+                // Check for Error
+                else if (nativeError && nativeError.style.display !== 'none' && nativeError.innerHTML.trim() !== '') {
+                    clearInterval(checkStatus);
+                    statusBox.innerHTML = "Failed to send: " + nativeError.textContent; // Use textContent to strip HTML if needed
+                    statusBox.className = 'form-status error';
+                    statusBox.style.display = ''; // Clear inline display:none
+                    customBtn.disabled = false;
+                    customBtn.textContent = "Try Again";
+                }
+                // Timeout
+                else if (attempts >= maxAttempts) {
+                    clearInterval(checkStatus);
+                    // Sometimes Blogger sends successfully but doesn't update the DOM as expected in some contexts
+                    // But usually, it displays the message.
+                    statusBox.innerHTML = "Request timed out. Please check your connection.";
+                    statusBox.className = 'form-status error';
+                    customBtn.disabled = false;
+                    customBtn.textContent = "Try Again";
+                }
+            }, 500); // Check every 500ms
+        });
+    });
+})();
+//]]>
+</script>
