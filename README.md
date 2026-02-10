@@ -122,7 +122,7 @@ If you really like my work, you can support me via donation.
 
 | Platform | Address / Link |
 | :--- | :--- |
-| [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/aliasnull) | `https://paypal.me/aliasnull` |
+| [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/aliasnull) | https://paypal.me/aliasnull |
 | **Bitcoin (BTC)** | `YOUR_BTC_ADDRESS_HERE` |
 | **Ethereum (ETH)** | `YOUR_ETH_ADDRESS_HERE` |
 | **USDT (TRC20)** | `YOUR_USDT_ADDRESS_HERE` |
