@@ -12,6 +12,15 @@
     -->
     <b:include data='blog' name='all-head-content'/>
     <title><data:blog.pageTitle/></title>
+    <script>
+    //<![CDATA[
+    // ⚡ Bolt: Immediate theme application to prevent Flash of Unstyled Content (FOUC)
+    (function() {
+        const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+    })();
+    //]]>
+    </script>
             <b:if cond='data:view.isHomepage'>
         <script type='application/ld+json'>
         {
@@ -1419,7 +1428,14 @@
 
                          <!-- Helper for Responsive Image -->
                          <b:includable id='responsiveImage' var='info'>
-                             <img expr:src='data:info.image' loading='lazy' style='width: 100%; height: 200px; object-fit: cover;'/>
+                             <!-- ⚡ Bolt: Optimized image serving using Blogger's resizeImage for better LCP and data savings -->
+                             <img decoding='async'
+                                  expr:alt='data:post.title'
+                                  expr:src='resizeImage(data:info.image, 600)'
+                                  expr:srcset='resizeImage(data:info.image, 300) + " 300w, " + resizeImage(data:info.image, 600) + " 600w"'
+                                  loading='lazy'
+                                  sizes='(max-width: 768px) 100vw, 400px'
+                                  style='width: 100%; height: 200px; object-fit: cover;'/>
                          </b:includable>
 
                     </b:widget>
@@ -1755,6 +1771,10 @@
         function setTheme(theme) {
             html.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
+            updateIcons(theme);
+        }
+
+        function updateIcons(theme) {
             if (theme === 'dark') {
                 iconMoon.style.display = 'none';
                 iconSun.style.display = 'block';
@@ -1764,9 +1784,8 @@
             }
         }
 
-        // Check preference
-        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        setTheme(savedTheme);
+        // ⚡ Bolt: Use theme already applied in <head> to avoid re-calculating or flashing
+        updateIcons(html.getAttribute('data-theme') || 'light');
 
         if(toggleBtn) {
             toggleBtn.addEventListener('click', () => {
